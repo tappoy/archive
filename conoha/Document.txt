@@ -3,8 +3,8 @@ package conoha // import "github.com/tappoy/cloud/conoha"
 
 FUNCTIONS
 
-func Auth(userId, password, tenantId string) (cloud.Client, error)
-    ConohaAuth authenticates to ConoHa API.
+func NewClient(userId, password, tenantId string) (cloud.Client, error)
+    NewClient is a factory method for ConohaClient.
 
     Errors:
       - http.NewRequest
