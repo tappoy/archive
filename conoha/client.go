@@ -34,13 +34,13 @@ const authFormat = `{
 	}
 }`
 
-// ConohaAuth authenticates to ConoHa API.
+// NewClient is a factory method for ConohaClient.
 //
 // Errors:
 //   - http.NewRequest
 //   - http.DefaultClient.Do
 //   - "status code: %d" if response status code is not 201
-func Auth(userId, password, tenantId string) (cloud.Client, error) {
+func NewClient(userId, password, tenantId string) (cloud.Client, error) {
 	body := fmt.Sprintf(authFormat, userId, password, tenantId)
 	req, err := http.NewRequest(http.MethodPost, authUrl, strings.NewReader(body))
 	if err != nil {

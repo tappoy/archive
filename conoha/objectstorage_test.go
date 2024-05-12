@@ -11,8 +11,8 @@ func TestNormal(t *testing.T) {
 	password := os.Getenv("OS_PASSWORD")
 	tenantId := os.Getenv("OS_TENANT_ID")
 
-	// Auth
-	c, err := Auth(userId, password, tenantId)
+	// NewClient
+	c, err := NewClient(userId, password, tenantId)
 	if err != nil {
 		t.Fatal(err)
 	}
