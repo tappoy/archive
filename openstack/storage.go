@@ -1,9 +1,9 @@
-package conoha
+package openstack
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/tappoy/cloud"
+	"github.com/tappoy/archive"
 	"io"
 	"net/http"
 	"strconv"
@@ -13,7 +13,7 @@ import (
 
 const objectStorageUrl = "https://object-storage.c3j1.conoha.io/v1/AUTH_"
 
-func (c ConohaClient) osUrl() string {
+func (c OpenstackClient) osUrl() string {
 	return objectStorageUrl + c.TenantId
 }
 
@@ -21,7 +21,7 @@ func (c ConohaClient) osUrl() string {
 //
 // Reference:
 //   - https://doc.conoha.jp/api-vps3/object-create_container-v3/
-func (c ConohaClient) PutContainer(container string) error {
+func (c OpenstackClient) PutContainer(container string) error {
 	apiUrl := c.osUrl() + "/" + container
 	req, err := http.NewRequest(http.MethodPut, apiUrl, nil)
 	if err != nil {
@@ -45,7 +45,7 @@ func (c ConohaClient) PutContainer(container string) error {
 //
 // Reference:
 //   - https://doc.conoha.jp/api-vps3/object-get_objects_list-v3/
-func (c ConohaClient) GetContainer(container, query string) ([]cloud.Object, error) {
+func (c OpenstackClient) GetContainer(container, query string) ([]archive.Object, error) {
 	apiUrl := c.osUrl() + "/" + container + "?" + query
 	req, err := http.NewRequest(http.MethodGet, apiUrl, nil)
 	if err != nil {
@@ -70,7 +70,7 @@ func (c ConohaClient) GetContainer(container, query string) ([]cloud.Object, err
 		return nil, err
 	}
 
-	var objects []cloud.Object
+	var objects []archive.Object
 	err = json.Unmarshal(body, &objects)
 	if err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func (c ConohaClient) GetContainer(container, query string) ([]cloud.Object, err
 //
 // References:
 //   - https://doc.conoha.jp/api-vps3/object-upload_object-v3/
-func (c ConohaClient) PutObject(container, object string, r io.Reader) error {
+func (c OpenstackClient) PutObject(container, object string, r io.Reader) error {
 	apiUrl := c.osUrl() + "/" + container + "/" + object
 	req, err := http.NewRequest(http.MethodPut, apiUrl, r)
 	if err != nil {
@@ -109,7 +109,7 @@ func (c ConohaClient) PutObject(container, object string, r io.Reader) error {
 //
 // References:
 //   - https://doc.conoha.jp/api-vps3/object-delete_object-v3/
-func (c ConohaClient) DeleteObject(container, object string) error {
+func (c OpenstackClient) DeleteObject(container, object string) error {
 	apiUrl := c.osUrl() + "/" + container + "/" + object
 	req, err := http.NewRequest(http.MethodDelete, apiUrl, nil)
 	if err != nil {
@@ -137,33 +137,33 @@ func (c ConohaClient) DeleteObject(container, object string) error {
 // References:
 //   - (WRONG) https://doc.conoha.jp/api-vps3/object-get_objects_detail_specified-v3/
 //   - https://docs.openstack.org/api-ref/object-store/#show-object-metadata
-func (c ConohaClient) HeadObject(container, object string) (cloud.Object, error) {
+func (c OpenstackClient) HeadObject(container, object string) (archive.Object, error) {
 	apiUrl := c.osUrl() + "/" + container + "/" + object
 	req, err := http.NewRequest(http.MethodHead, apiUrl, nil)
 	if err != nil {
-		return cloud.Object{}, err
+		return archive.Object{}, err
 	}
 
 	req.Header.Set("X-Auth-Token", c.Token)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return cloud.Object{}, err
+		return archive.Object{}, err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return cloud.Object{}, fmt.Errorf("status code: %d", resp.StatusCode)
+		return archive.Object{}, fmt.Errorf("status code: %d", resp.StatusCode)
 	}
 
-	bytes, err := strconv.Atoi(resp.Header.Get("Content-Length"))
+	bytes, err := strconv.ParseInt(resp.Header.Get("Content-Length"), 10, 64)
 	if err != nil {
-		return cloud.Object{}, err
+		return archive.Object{}, err
 	}
 
 	lastModified, err := time.Parse(time.RFC1123, resp.Header.Get("Last-Modified"))
 
-	return cloud.Object{
+	return archive.Object{
 		Name:         object,
 		Hash:         resp.Header.Get("Etag"),
 		Bytes:        bytes,

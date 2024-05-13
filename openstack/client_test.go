@@ -1,4 +1,4 @@
-package conoha
+package openstack
 
 import (
 	"os"
