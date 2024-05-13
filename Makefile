@@ -1,10 +1,10 @@
-PACKAGE=github.com/tappoy/cloud
+PACKAGE=github.com/tappoy/archive
 WORKING_DIRS=tmp bin
 
 SRC=$(shell find . -name "*.go")
 BIN=bin/$(shell basename $(CURDIR))
 DOC=Document.txt
-CONOHA_DOC=conoha/Document.txt
+OPENSTACK_DOC=openstack/Document.txt
 COVER=tmp/cover
 COVER0=tmp/cover0
 
@@ -34,8 +34,8 @@ test: $(BIN)
 $(DOC): $(ls *.go)
 	go doc -all > $(DOC)
 
-$(CONOHA_DOC): $(ls conoha/*.go)
-	go doc -all conoha > $(CONOHA_DOC)
+$(CONOHA_DOC): $(ls openstack/*.go)
+	go doc -all openstack > $(OPENSTACK_DOC)
 
 cover: $(COVER)
 	grep "0$$" $(COVER) | sed 's!$(PACKAGE)!.!' | tee $(COVER0)
