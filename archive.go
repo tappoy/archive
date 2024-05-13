@@ -3,9 +3,10 @@
 // References:
 //   - ConoHa     https://doc.conoha.jp/api-vps3/
 //   - OpenStack  https://docs.openstack.org/2024.1/api/
+//   - Google     https://cloud.google.com/storage/docs/json_api/v1
 //   - Sakura     https://manual.sakura.ad.jp/cloud/objectstorage/api/api-json.html
 //   - CloudFlare https://developers.cloudflare.com/r2/examples/aws/aws-sdk-go/
-package cloud
+package archive
 
 import (
 	"io"
@@ -15,7 +16,7 @@ import (
 type Object struct {
 	Name         string    `json:"name"`
 	Hash         string    `json:"hash"`
-	Bytes        int       `json:"bytes"`
+	Bytes        int64     `json:"bytes"`
 	ContentType  string    `json:"content_type"`
 	LastModified time.Time `json:"last_modified"`
 }
