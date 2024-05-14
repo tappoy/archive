@@ -9,7 +9,7 @@ import (
 
 const authUrl = "https://identity.c3j1.conoha.io/v3/auth/tokens"
 
-// OpenstackClient is a client for ConoHa API.
+// OpenstackClient is a client for Openstack Object Storage.
 type OpenstackClient struct {
 	token    string
 	tenantId string

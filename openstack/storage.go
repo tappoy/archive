@@ -111,7 +111,8 @@ func (c OpenstackClient) Delete(object string) error {
 // Head retrieves an object metadata.
 //
 // References:
-//   - (WRONG) https://doc.conoha.jp/api-vps3/object-get_objects_detail_specified-v3/
+//   - https://doc.conoha.jp/api-vps3/object-get_objects_detail_specified-v3/
+//     2024-05-15: It's wrong. It says 'GET', but it's actually 'HEAD'.
 //   - https://docs.openstack.org/api-ref/object-store/#show-object-metadata
 func (c OpenstackClient) Head(object string) (archive.Object, error) {
 	apiUrl := c.osUrl() + "/" + c.bucket + "/" + object
