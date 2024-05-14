@@ -1,11 +1,18 @@
 // This package provides an interface for archiving to cloud services.
 //
-// References:
-//   - ConoHa     https://doc.conoha.jp/api-vps3/
+// Supported protocols:
 //   - OpenStack  https://docs.openstack.org/2024.1/api/
+//   - AWS        https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html
+//
+// Tested services:
+//   - ConoHa     https://doc.conoha.jp/api-vps3/
 //   - Sakura     https://manual.sakura.ad.jp/cloud/objectstorage/api/api-json.html
-//   - Google     https://cloud.google.com/storage/docs/json_api/v1
+//
+// May be supported:
 //   - CloudFlare https://developers.cloudflare.com/r2/examples/aws/aws-sdk-go/
+//
+// Others:
+//   - Google     https://cloud.google.com/storage/docs/json_api/v1
 package archive
 
 import (
@@ -17,7 +24,6 @@ type Object struct {
 	Name         string    `json:"name"`
 	Hash         string    `json:"hash"`
 	Bytes        int64     `json:"bytes"`
-	ContentType  string    `json:"content_type"`
 	LastModified time.Time `json:"last_modified"`
 }
 
