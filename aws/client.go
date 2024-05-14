@@ -14,8 +14,6 @@ type S3Client struct {
 }
 
 // NewClient is a factory method for S3Client
-//
-// Errors:
 func NewClient(region, accessKey, secretKey, endpoint, bucket string) (archive.Client, error) {
 	appCreds := aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider(accessKey, secretKey, ""))
 
