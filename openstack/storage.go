@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-	//"strings"
 )
 
 func (c OpenstackClient) osUrl() string {
@@ -144,7 +143,6 @@ func (c OpenstackClient) Head(object string) (archive.Object, error) {
 		Name:         object,
 		Hash:         resp.Header.Get("Etag"),
 		Bytes:        bytes,
-		ContentType:  resp.Header.Get("Content-Type"),
 		LastModified: lastModified,
 	}, nil
 }
