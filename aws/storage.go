@@ -52,15 +52,45 @@ func (c S3Client) List(prefix string) ([]archive.Object, error) {
 
 // Put creates an object.
 func (c S3Client) Put(object string, body io.Reader) error {
+	params := &s3.PutObjectInput{
+		Bucket: &c.bucket,
+		Key:    &object,
+		Body:   body,
+	}
+	_, err := c.client.PutObject(context.TODO(), params)
+	if err != nil {
+		return fmt.Errorf("failed to put object %v, %v", object, err)
+	}
 	return nil
 }
 
 // Delete deletes an object.
 func (c S3Client) Delete(object string) error {
+	params := &s3.DeleteObjectInput{
+		Bucket: &c.bucket,
+		Key:    &object,
+	}
+	_, err := c.client.DeleteObject(context.TODO(), params)
+	if err != nil {
+		return fmt.Errorf("failed to delete object %v, %v", object, err)
+	}
 	return nil
 }
 
 // Head retrieves an object metadata.
 func (c S3Client) Head(object string) (archive.Object, error) {
-	return archive.Object{}, nil
+	ret := archive.Object{}
+	params := &s3.HeadObjectInput{
+		Bucket: &c.bucket,
+		Key:    &object,
+	}
+	obj, err := c.client.HeadObject(context.TODO(), params)
+	if err != nil {
+		return ret, fmt.Errorf("failed to head object %v, %v", object, err)
+	}
+	ret.Name = object
+	ret.Hash = *obj.ETag
+	ret.Bytes = *obj.ContentLength
+	ret.LastModified = *obj.LastModified
+	return ret, nil
 }
