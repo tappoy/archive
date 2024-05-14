@@ -1,9 +1,10 @@
 # Package
-`github.com/tappoy/cloud`
+`github.com/tappoy/archive`
 
 # Documents
-- cloud: [Document.txt](Document.txt)
-- cloud/conoha: [conoha/Document.txt](conoha/Document.txt)
+- archive: [Document.txt](Document.txt)
+- archive/openstack: [openstack/Document.txt](archive/Document.txt)
+- archive/aws: [aws/Document.txt](aws/Document.txt)
 
 # Why it is this way
 See [Philosophy](https://github.com/tappoy/philosophy) for more details.
