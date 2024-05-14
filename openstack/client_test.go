@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestAuth(t *testing.T) {
+func TestOSAuth(t *testing.T) {
 	userId := os.Getenv("OS_USER_ID")
 	password := os.Getenv("OS_PASSWORD")
 	tenantId := os.Getenv("OS_TENANT_ID")

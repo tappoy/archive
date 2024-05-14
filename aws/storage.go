@@ -20,10 +20,9 @@ func (c S3Client) List(prefix string) ([]archive.Object, error) {
 	}
 
 	// Create the Paginator for the ListObjectsV2 operation.
-	p := s3.NewListObjectsV2Paginator(c.client, params, func(o *s3.ListObjectsV2PaginatorOptions) {
-	})
+	p := s3.NewListObjectsV2Paginator(c.client, params, func(o *s3.ListObjectsV2PaginatorOptions) {})
 
-	// Iterate through the S3 object pages, printing each object returned.
+	// Iterate through the S3 object pages.
 	var i int
 	result := []archive.Object{}
 
@@ -37,7 +36,7 @@ func (c S3Client) List(prefix string) ([]archive.Object, error) {
 			return nil, fmt.Errorf("failed to get page %v, %v", i, err)
 		}
 
-		// Log the objects found
+		// Append the objects found
 		for _, obj := range page.Contents {
 			o := archive.Object{
 				Name:         *obj.Key,
