@@ -1,0 +1,47 @@
+package openstack // import "github.com/tappoy/archive/openstack"
+
+
+FUNCTIONS
+
+func NewClient(userId, password, tenantId, endpoint, bucket string) (archive.Client, error)
+    NewClient is a factory method for OpenstackClient.
+
+    Errors:
+      - http.NewRequest
+      - http.DefaultClient.Do
+      - "status code: %d" if response status code is not 201
+
+
+TYPES
+
+type OpenstackClient struct {
+	// Has unexported fields.
+}
+    OpenstackClient is a client for Openstack Object Storage.
+
+func (c OpenstackClient) Delete(object string) error
+    Delete deletes an object.
+
+    References:
+      - https://doc.conoha.jp/api-vps3/object-delete_object-v3/
+
+func (c OpenstackClient) Head(object string) (archive.Object, error)
+    Head retrieves an object metadata.
+
+    References:
+      - (WRONG)
+        https://doc.conoha.jp/api-vps3/object-get_objects_detail_specified-v3/
+      - https://docs.openstack.org/api-ref/object-store/#show-object-metadata
+
+func (c OpenstackClient) List(prefix string) ([]archive.Object, error)
+    List retrieves a objject list of a container.
+
+    Reference:
+      - https://doc.conoha.jp/api-vps3/object-get_objects_list-v3/
+
+func (c OpenstackClient) Put(object string, r io.Reader) error
+    Put uploads an object.
+
+    References:
+      - https://doc.conoha.jp/api-vps3/object-upload_object-v3/
+

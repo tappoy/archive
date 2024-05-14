@@ -1,18 +1,20 @@
-package conoha
+package openstack
 
 import (
 	"fmt"
-	"github.com/tappoy/cloud"
+	"github.com/tappoy/archive"
 	"net/http"
 	"strings"
 )
 
 const authUrl = "https://identity.c3j1.conoha.io/v3/auth/tokens"
 
-// ConohaClient is a client for ConoHa API.
-type ConohaClient struct {
-	Token    string
-	TenantId string
+// OpenstackClient is a client for Openstack Object Storage.
+type OpenstackClient struct {
+	token    string
+	tenantId string
+	endpoint string
+	bucket   string
 }
 
 const authFormat = `{
@@ -34,13 +36,13 @@ const authFormat = `{
 	}
 }`
 
-// NewClient is a factory method for ConohaClient.
+// NewClient is a factory method for OpenstackClient.
 //
 // Errors:
 //   - http.NewRequest
 //   - http.DefaultClient.Do
 //   - "status code: %d" if response status code is not 201
-func NewClient(userId, password, tenantId string) (cloud.Client, error) {
+func NewClient(userId, password, tenantId, endpoint, bucket string) (archive.Client, error) {
 	body := fmt.Sprintf(authFormat, userId, password, tenantId)
 	req, err := http.NewRequest(http.MethodPost, authUrl, strings.NewReader(body))
 	if err != nil {
@@ -57,5 +59,5 @@ func NewClient(userId, password, tenantId string) (cloud.Client, error) {
 	}
 
 	token := resp.Header.Get("X-Subject-Token")
-	return ConohaClient{Token: token, TenantId: tenantId}, nil
+	return OpenstackClient{token: token, tenantId: tenantId, endpoint: endpoint, bucket: bucket}, nil
 }
