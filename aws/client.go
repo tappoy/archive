@@ -10,12 +10,13 @@ import (
 
 type S3Client struct {
 	client *s3.Client
+	bucket string
 }
 
 // NewClient is a factory method for S3Client
 //
 // Errors:
-func NewClient(region, accessKey, secretKey, endpoint string) (archive.Client, error) {
+func NewClient(region, accessKey, secretKey, endpoint, bucket string) (archive.Client, error) {
 	appCreds := aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider(accessKey, secretKey, ""))
 
 	cfg := aws.Config{
@@ -24,5 +25,5 @@ func NewClient(region, accessKey, secretKey, endpoint string) (archive.Client, e
 		BaseEndpoint: &endpoint,
 	}
 
-	return S3Client{client: s3.NewFromConfig(cfg)}, nil
+	return S3Client{client: s3.NewFromConfig(cfg), bucket: bucket}, nil
 }

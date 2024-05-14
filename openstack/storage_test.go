@@ -6,60 +6,55 @@ import (
 	"testing"
 )
 
-func TestNormal(t *testing.T) {
+func TestOSNormal(t *testing.T) {
 	userId := os.Getenv("OS_USER_ID")
 	password := os.Getenv("OS_PASSWORD")
 	tenantId := os.Getenv("OS_TENANT_ID")
+	endpoint := os.Getenv("OS_ENDPOINT")
+	bucket := os.Getenv("OS_BUCKET")
 
 	// NewClient
-	c, err := NewClient(userId, password, tenantId)
+	c, err := NewClient(userId, password, tenantId, endpoint, bucket)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	// PutContainer
-	container := "test-container2"
-	err = c.PutContainer(container)
-	if err != nil {
-		t.Error(err)
-	}
-
 	// PutObject
 	object := "test-object"
-	err = c.PutObject(container, object, strings.NewReader("test"))
+	err = c.Put(object, strings.NewReader("test"))
 	if err != nil {
 		t.Error(err)
 	}
 
 	// PutObject
 	object = "test-object2"
-	err = c.PutObject(container, object, strings.NewReader("test"))
+	err = c.Put(object, strings.NewReader("test"))
 	if err != nil {
 		t.Error(err)
 	}
 
-	// GetContainer
-	objects, err := c.GetContainer(container, "")
+	// List
+	objects, err := c.List("")
 	if err != nil {
 		t.Error(err)
 	}
 	t.Log(objects)
 
-	// HeadObject
-	info, err := c.HeadObject(container, "test-object")
+	// Head
+	info, err := c.Head("test-object")
 	if err != nil {
 		t.Error(err)
 	}
 	t.Log(info)
 
-	// DeleteObject
-	err = c.DeleteObject(container, object)
+	// Delete
+	err = c.Delete(object)
 	if err != nil {
 		t.Error(err)
 	}
 
-	// DeleteObject
-	err = c.DeleteObject(container, object)
+	// Delete
+	err = c.Delete(object)
 	if err != nil {
 		t.Error(err)
 	}

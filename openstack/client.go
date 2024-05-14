@@ -11,8 +11,10 @@ const authUrl = "https://identity.c3j1.conoha.io/v3/auth/tokens"
 
 // OpenstackClient is a client for ConoHa API.
 type OpenstackClient struct {
-	Token    string
-	TenantId string
+	token    string
+	tenantId string
+	endpoint string
+	bucket   string
 }
 
 const authFormat = `{
@@ -40,7 +42,7 @@ const authFormat = `{
 //   - http.NewRequest
 //   - http.DefaultClient.Do
 //   - "status code: %d" if response status code is not 201
-func NewClient(userId, password, tenantId string) (archive.Client, error) {
+func NewClient(userId, password, tenantId, endpoint, bucket string) (archive.Client, error) {
 	body := fmt.Sprintf(authFormat, userId, password, tenantId)
 	req, err := http.NewRequest(http.MethodPost, authUrl, strings.NewReader(body))
 	if err != nil {
@@ -57,5 +59,5 @@ func NewClient(userId, password, tenantId string) (archive.Client, error) {
 	}
 
 	token := resp.Header.Get("X-Subject-Token")
-	return OpenstackClient{Token: token, TenantId: tenantId}, nil
+	return OpenstackClient{token: token, tenantId: tenantId, endpoint: endpoint, bucket: bucket}, nil
 }
