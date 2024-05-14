@@ -1,0 +1,27 @@
+package aws // import "github.com/tappoy/archive/aws"
+
+
+FUNCTIONS
+
+func NewClient(region, accessKey, secretKey, endpoint, bucket string) (archive.Client, error)
+    NewClient is a factory method for S3Client
+
+
+TYPES
+
+type S3Client struct {
+	// Has unexported fields.
+}
+
+func (c S3Client) Delete(object string) error
+    Delete deletes an object.
+
+func (c S3Client) Head(object string) (archive.Object, error)
+    Head retrieves an object metadata.
+
+func (c S3Client) List(prefix string) ([]archive.Object, error)
+    List retrieves a object list in the container.
+
+func (c S3Client) Put(object string, body io.Reader) error
+    Put creates an object.
+
