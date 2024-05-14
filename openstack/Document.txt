@@ -1,10 +1,10 @@
-package conoha // import "github.com/tappoy/cloud/conoha"
+package openstack // import "github.com/tappoy/archive/openstack"
 
 
 FUNCTIONS
 
-func NewClient(userId, password, tenantId string) (cloud.Client, error)
-    NewClient is a factory method for ConohaClient.
+func NewClient(userId, password, tenantId, endpoint, bucket string) (archive.Client, error)
+    NewClient is a factory method for OpenstackClient.
 
     Errors:
       - http.NewRequest
@@ -14,40 +14,33 @@ func NewClient(userId, password, tenantId string) (cloud.Client, error)
 
 TYPES
 
-type ConohaClient struct {
-	Token    string
-	TenantId string
+type OpenstackClient struct {
+	// Has unexported fields.
 }
-    ConohaClient is a client for ConoHa API.
+    OpenstackClient is a client for Openstack Object Storage.
 
-func (c ConohaClient) DeleteObject(container, object string) error
-    DeleteObject deletes an object.
+func (c OpenstackClient) Delete(object string) error
+    Delete deletes an object.
 
     References:
       - https://doc.conoha.jp/api-vps3/object-delete_object-v3/
 
-func (c ConohaClient) GetContainer(container, query string) ([]cloud.Object, error)
-    GetContainer retrieves a objject list of a container.
-
-    Reference:
-      - https://doc.conoha.jp/api-vps3/object-get_objects_list-v3/
-
-func (c ConohaClient) HeadObject(container, object string) (cloud.Object, error)
-    HeadObject retrieves an object metadata.
+func (c OpenstackClient) Head(object string) (archive.Object, error)
+    Head retrieves an object metadata.
 
     References:
       - (WRONG)
         https://doc.conoha.jp/api-vps3/object-get_objects_detail_specified-v3/
       - https://docs.openstack.org/api-ref/object-store/#show-object-metadata
 
-func (c ConohaClient) PutContainer(container string) error
-    CreateContainer creates a container.
+func (c OpenstackClient) List(prefix string) ([]archive.Object, error)
+    List retrieves a objject list of a container.
 
     Reference:
-      - https://doc.conoha.jp/api-vps3/object-create_container-v3/
+      - https://doc.conoha.jp/api-vps3/object-get_objects_list-v3/
 
-func (c ConohaClient) PutObject(container, object string, r io.Reader) error
-    PutObject uploads an object.
+func (c OpenstackClient) Put(object string, r io.Reader) error
+    Put uploads an object.
 
     References:
       - https://doc.conoha.jp/api-vps3/object-upload_object-v3/
