@@ -3,6 +3,8 @@ package aws
 import (
 	"github.com/tappoy/archive/types"
 
+	"fmt"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
@@ -24,4 +26,30 @@ func NewClient(region, accessKey, secretKey, endpoint, bucket string) (types.Cli
 	}
 
 	return S3Client{client: s3.NewFromConfig(cfg), bucket: bucket}, nil
+}
+
+// NewClientFromConfig is a factory method for OpenstackClient.
+func NewClientFromConfig(config map[string]string) (types.Client, error) {
+	// check required fields
+	if _, ok := config["AWS_REGION"]; !ok {
+		return nil, fmt.Errorf("missing AWS_REGION")
+	}
+
+	if _, ok := config["AWS_ACCESS_KEY_ID"]; !ok {
+		return nil, fmt.Errorf("missing AWS_ACCESS_KEY_ID")
+	}
+
+	if _, ok := config["AWS_SECRET_ACCESS_KEY"]; !ok {
+		return nil, fmt.Errorf("missing AWS_SECRET_ACCESS_KEY")
+	}
+
+	if _, ok := config["AWS_ENDPOINT"]; !ok {
+		return nil, fmt.Errorf("missing AWS_ENDPOINT")
+	}
+
+	if _, ok := config["AWS_BUCKET"]; !ok {
+		return nil, fmt.Errorf("missing AWS_BUCKET")
+	}
+
+	return NewClient(config["AWS_REGION"], config["AWS_ACCESS_KEY_ID"], config["AWS_SECRET_ACCESS_KEY"], config["AWS_ENDPOINT"], config["AWS_BUCKET"])
 }

@@ -6,6 +6,9 @@ FUNCTIONS
 func NewClient(region, accessKey, secretKey, endpoint, bucket string) (types.Client, error)
     NewClient is a factory method for S3Client
 
+func NewClientFromConfig(config map[string]string) (types.Client, error)
+    NewClientFromConfig is a factory method for OpenstackClient.
+
 
 TYPES
 
