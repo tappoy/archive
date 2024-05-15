@@ -5,5 +5,5 @@ OS_PASSWORD      xxxxxxxxxxxxxxxxxxxxxxxx
 OS_TENANT_ID     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 OS_BUCKET        xxxxxxxxxxxxxxx
 
-# case of ConoHa
+# example of ConoHa
 OS_ENDPOINT      https://object-storage.c3j1.conoha.io/v1/AUTH_
