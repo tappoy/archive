@@ -28,6 +28,12 @@ func (c OpenstackClient) Delete(object string) error
     References:
       - https://doc.conoha.jp/api-vps3/object-delete_object-v3/
 
+func (c OpenstackClient) Get(object string) (types.Object, io.Reader, error)
+    Get retrieves an object.
+
+    References:
+      - https://doc.conoha.jp/api-vps3/object-download_object-v3/
+
 func (c OpenstackClient) Head(object string) (types.Object, error)
     Head retrieves an object metadata.
 

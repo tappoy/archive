@@ -1,6 +1,7 @@
 package openstack
 
 import (
+	"io"
 	"os"
 	"strings"
 	"testing"
@@ -46,6 +47,20 @@ func TestOSNormal(t *testing.T) {
 		t.Error(err)
 	}
 	t.Log(info)
+
+	// Get
+	info, reader, err := c.Get("test-object")
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(info)
+
+	// Show content
+	content, err := io.ReadAll(reader)
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(string(content))
 
 	// Delete
 	err = c.Delete(object)

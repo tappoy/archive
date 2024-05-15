@@ -24,4 +24,7 @@ type Client interface {
 
 	// Head retrieves an object metadata.
 	Head(object string) (Object, error)
+
+	// Get retrieves an object.
+	Get(object string) (Object, io.Reader, error)
 }

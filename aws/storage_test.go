@@ -1,6 +1,7 @@
 package aws
 
 import (
+	"io"
 	"os"
 	"strings"
 	"testing"
@@ -46,6 +47,20 @@ func TestAWSNormal(t *testing.T) {
 		t.Error(err)
 	}
 	t.Log(ret)
+
+	// Get
+	head, reader, err := c.Get("test.txt")
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(head)
+
+	// Show content
+	content, err := io.ReadAll(reader)
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(string(content))
 
 	// Delete
 	err = c.Delete("test.txt")

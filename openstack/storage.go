@@ -147,3 +147,43 @@ func (c OpenstackClient) Head(object string) (types.Object, error) {
 		LastModified: lastModified,
 	}, nil
 }
+
+// Get retrieves an object.
+//
+// References:
+//   - https://doc.conoha.jp/api-vps3/object-download_object-v3/
+func (c OpenstackClient) Get(object string) (types.Object, io.Reader, error) {
+	apiUrl := c.osUrl() + "/" + c.bucket + "/" + object
+	req, err := http.NewRequest(http.MethodGet, apiUrl, nil)
+	if err != nil {
+		return types.Object{}, nil, err
+	}
+
+	req.Header.Set("X-Auth-Token", c.token)
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return types.Object{}, nil, err
+	}
+
+	if resp.StatusCode != 200 {
+		return types.Object{}, nil, fmt.Errorf("status code: %d", resp.StatusCode)
+	}
+
+	bytes, err := strconv.ParseInt(resp.Header.Get("Content-Length"), 10, 64)
+	if err != nil {
+		return types.Object{}, nil, err
+	}
+
+	lastModified, err := time.Parse(time.RFC1123, resp.Header.Get("Last-Modified"))
+	if err != nil {
+		return types.Object{}, nil, err
+	}
+
+	return types.Object{
+		Name:         object,
+		Hash:         resp.Header.Get("Etag"),
+		Bytes:        bytes,
+		LastModified: lastModified,
+	}, resp.Body, nil
+}

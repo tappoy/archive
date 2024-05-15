@@ -19,6 +19,9 @@ type S3Client struct {
 func (c S3Client) Delete(object string) error
     Delete deletes an object.
 
+func (c S3Client) Get(object string) (types.Object, io.Reader, error)
+    Get retrieves an object.
+
 func (c S3Client) Head(object string) (types.Object, error)
     Head retrieves an object metadata.
 
