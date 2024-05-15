@@ -3,14 +3,14 @@ package aws
 import (
 	"context"
 	"fmt"
-	"github.com/tappoy/archive"
+	"github.com/tappoy/archive/types"
 	"io"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
 // List retrieves a object list in the container.
-func (c S3Client) List(prefix string) ([]archive.Object, error) {
+func (c S3Client) List(prefix string) ([]types.Object, error) {
 	// Set the parameters based on the CLI flag inputs.
 	params := &s3.ListObjectsV2Input{
 		Bucket: &c.bucket,
@@ -24,7 +24,7 @@ func (c S3Client) List(prefix string) ([]archive.Object, error) {
 
 	// Iterate through the S3 object pages.
 	var i int
-	result := []archive.Object{}
+	result := []types.Object{}
 
 	for p.HasMorePages() {
 		i++
@@ -38,7 +38,7 @@ func (c S3Client) List(prefix string) ([]archive.Object, error) {
 
 		// Append the objects found
 		for _, obj := range page.Contents {
-			o := archive.Object{
+			o := types.Object{
 				Name:         *obj.Key,
 				Hash:         *obj.ETag,
 				Bytes:        *obj.Size,
@@ -78,8 +78,8 @@ func (c S3Client) Delete(object string) error {
 }
 
 // Head retrieves an object metadata.
-func (c S3Client) Head(object string) (archive.Object, error) {
-	ret := archive.Object{}
+func (c S3Client) Head(object string) (types.Object, error) {
+	ret := types.Object{}
 	params := &s3.HeadObjectInput{
 		Bucket: &c.bucket,
 		Key:    &object,

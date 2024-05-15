@@ -16,27 +16,23 @@
 package archive
 
 import (
-	"io"
-	"time"
+	"errors"
+	"github.com/tappoy/archive/openstack"
+	"github.com/tappoy/archive/types"
 )
 
-type Object struct {
-	Name         string    `json:"name"`
-	Hash         string    `json:"hash"`
-	Bytes        int64     `json:"bytes"`
-	LastModified time.Time `json:"last_modified"`
-}
+var (
+	// ErrUnsupportedProtocol is returned when the protocol is not supported.
+	ErrUnsupportedProtocol = errors.New("unsupported protocol")
+)
 
-type Client interface {
-	// List retrieves a object list in the container.
-	List(prefix string) ([]Object, error)
-
-	// Put creates an object.
-	Put(object string, body io.Reader) error
-
-	// Delete deletes an object.
-	Delete(object string) error
-
-	// Head retrieves an object metadata.
-	Head(object string) (Object, error)
+func NewClientFromConfig(config map[string]string) (types.Client, error) {
+	switch config["ARCHIVE_PROTOCOL"] {
+	case "openstack":
+		return openstack.NewClientFromConfig(config)
+	// case "aws":
+	// 	return aws.NewClientFromConfig(config)
+	default:
+		return nil, ErrUnsupportedProtocol
+	}
 }

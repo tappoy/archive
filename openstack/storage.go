@@ -3,7 +3,7 @@ package openstack
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/tappoy/archive"
+	"github.com/tappoy/archive/types"
 	"io"
 	"net/http"
 	"strconv"
@@ -18,7 +18,7 @@ func (c OpenstackClient) osUrl() string {
 //
 // Reference:
 //   - https://doc.conoha.jp/api-vps3/object-get_objects_list-v3/
-func (c OpenstackClient) List(prefix string) ([]archive.Object, error) {
+func (c OpenstackClient) List(prefix string) ([]types.Object, error) {
 	apiUrl := c.osUrl() + "/" + c.bucket
 	if len(prefix) > 0 {
 		apiUrl += "?prefix=" + prefix
@@ -46,7 +46,7 @@ func (c OpenstackClient) List(prefix string) ([]archive.Object, error) {
 		return nil, err
 	}
 
-	var objects []archive.Object
+	var objects []types.Object
 	err = json.Unmarshal(body, &objects)
 	if err != nil {
 		return nil, err
@@ -114,33 +114,33 @@ func (c OpenstackClient) Delete(object string) error {
 //   - https://doc.conoha.jp/api-vps3/object-get_objects_detail_specified-v3/
 //     2024-05-15: It's wrong. It says 'GET', but it's actually 'HEAD'.
 //   - https://docs.openstack.org/api-ref/object-store/#show-object-metadata
-func (c OpenstackClient) Head(object string) (archive.Object, error) {
+func (c OpenstackClient) Head(object string) (types.Object, error) {
 	apiUrl := c.osUrl() + "/" + c.bucket + "/" + object
 	req, err := http.NewRequest(http.MethodHead, apiUrl, nil)
 	if err != nil {
-		return archive.Object{}, err
+		return types.Object{}, err
 	}
 
 	req.Header.Set("X-Auth-Token", c.token)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return archive.Object{}, err
+		return types.Object{}, err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return archive.Object{}, fmt.Errorf("status code: %d", resp.StatusCode)
+		return types.Object{}, fmt.Errorf("status code: %d", resp.StatusCode)
 	}
 
 	bytes, err := strconv.ParseInt(resp.Header.Get("Content-Length"), 10, 64)
 	if err != nil {
-		return archive.Object{}, err
+		return types.Object{}, err
 	}
 
 	lastModified, err := time.Parse(time.RFC1123, resp.Header.Get("Last-Modified"))
 
-	return archive.Object{
+	return types.Object{
 		Name:         object,
 		Hash:         resp.Header.Get("Etag"),
 		Bytes:        bytes,

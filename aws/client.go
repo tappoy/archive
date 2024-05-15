@@ -1,7 +1,7 @@
 package aws
 
 import (
-	"github.com/tappoy/archive"
+	"github.com/tappoy/archive/types"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/credentials"
@@ -14,7 +14,7 @@ type S3Client struct {
 }
 
 // NewClient is a factory method for S3Client
-func NewClient(region, accessKey, secretKey, endpoint, bucket string) (archive.Client, error) {
+func NewClient(region, accessKey, secretKey, endpoint, bucket string) (types.Client, error) {
 	appCreds := aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider(accessKey, secretKey, ""))
 
 	cfg := aws.Config{
