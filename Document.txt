@@ -16,26 +16,48 @@ May be supported:
 Others:
   - Google https://cloud.google.com/storage/docs/json_api/v1
 
+VARIABLES
+
+var (
+	// ErrUnsupportedProtocol is returned when the protocol is not supported.
+	ErrUnsupportedProtocol = errors.New("unsupported protocol")
+
+	// ErrMissingProtocol is returned when the protocol is missing.
+	ErrMissingProtocol = errors.New("missing protocol")
+)
+
+FUNCTIONS
+
+func NewClientFromConfig(config map[string]string) (types.Client, error)
+    NewClientFromConfig creates a new client from a configuration map.
+
+    Errors:
+      - ErrMissingProtocol: when the "ARCHIVE_PROTOCOL" key is missing.
+      - ErrUnsupportedProtocol: when the protocol is not supported.
+      - Any error returned by the client constructor.
+
+func NewClientFromString(src string) (types.Client, error)
+    NewClientFromString creates a new client from a configuration string.
+
+    Errors:
+      - ParseError: when the configuration string is invalid.
+      - ErrUnsupportedProtocol: when the protocol is not supported.
+      - ErrMissingProtocol: when the protocol is missing.
+      - Any error returned by the client constructor.
+
+
 TYPES
 
-type Client interface {
-	// List retrieves a object list in the container.
-	List(prefix string) ([]Object, error)
-
-	// Put creates an object.
-	Put(object string, body io.Reader) error
-
-	// Delete deletes an object.
-	Delete(object string) error
-
-	// Head retrieves an object metadata.
-	Head(object string) (Object, error)
+type ParseError struct {
+	// LineNo is the line number where the error occurred.
+	LineNo int
+	// Line is the line where the error occurred.
+	Line string
+	// Message is the error message.
+	Message string
 }
+    ParseError is an error type for parsing configuration.
 
-type Object struct {
-	Name         string    `json:"name"`
-	Hash         string    `json:"hash"`
-	Bytes        int64     `json:"bytes"`
-	LastModified time.Time `json:"last_modified"`
-}
+func (e *ParseError) Error() string
+    Error returns the error message.
 

@@ -1,0 +1,9 @@
+ARCHIVE_PROTOCOL aws
+
+AWS_ACCESS_KEY_ID     xxxxxxxxxxxxxxxxxxxx
+AWS_SECRET_ACCESS_KEY xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+AWS_BUCKET            xxxxxxxxx
+
+# case of sakura
+AWS_ENDPOINT          https://s3.isk01.sakurastorage.jp
+AWS_REGION            jp-north-1

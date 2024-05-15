@@ -2,7 +2,7 @@ package openstack
 
 import (
 	"fmt"
-	"github.com/tappoy/archive"
+	"github.com/tappoy/archive/types"
 	"net/http"
 	"strings"
 )
@@ -42,7 +42,7 @@ const authFormat = `{
 //   - http.NewRequest
 //   - http.DefaultClient.Do
 //   - "status code: %d" if response status code is not 201
-func NewClient(userId, password, tenantId, endpoint, bucket string) (archive.Client, error) {
+func NewClient(userId, password, tenantId, endpoint, bucket string) (types.Client, error) {
 	body := fmt.Sprintf(authFormat, userId, password, tenantId)
 	req, err := http.NewRequest(http.MethodPost, authUrl, strings.NewReader(body))
 	if err != nil {
@@ -60,4 +60,30 @@ func NewClient(userId, password, tenantId, endpoint, bucket string) (archive.Cli
 
 	token := resp.Header.Get("X-Subject-Token")
 	return OpenstackClient{token: token, tenantId: tenantId, endpoint: endpoint, bucket: bucket}, nil
+}
+
+// NewClientFromConfig is a factory method for OpenstackClient.
+func NewClientFromConfig(config map[string]string) (types.Client, error) {
+	// check required fields
+	if _, ok := config["OS_USER_ID"]; !ok {
+		return nil, fmt.Errorf("missing OS_USER_ID")
+	}
+
+	if _, ok := config["OS_PASSWORD"]; !ok {
+		return nil, fmt.Errorf("missing OS_PASSWORD")
+	}
+
+	if _, ok := config["OS_TENANT_ID"]; !ok {
+		return nil, fmt.Errorf("missing OS_TENANT_ID")
+	}
+
+	if _, ok := config["OS_ENDPOINT"]; !ok {
+		return nil, fmt.Errorf("missing OS_ENDPOINT")
+	}
+
+	if _, ok := config["OS_BUCKET"]; !ok {
+		return nil, fmt.Errorf("missing OS_BUCKET")
+	}
+
+	return NewClient(config["OS_USER_ID"], config["OS_PASSWORD"], config["OS_TENANT_ID"], config["OS_ENDPOINT"], config["OS_BUCKET"])
 }
