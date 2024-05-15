@@ -21,8 +21,43 @@ VARIABLES
 var (
 	// ErrUnsupportedProtocol is returned when the protocol is not supported.
 	ErrUnsupportedProtocol = errors.New("unsupported protocol")
+
+	// ErrMissingProtocol is returned when the protocol is missing.
+	ErrMissingProtocol = errors.New("missing protocol")
 )
 
 FUNCTIONS
 
 func NewClientFromConfig(config map[string]string) (types.Client, error)
+    NewClientFromConfig creates a new client from a configuration map.
+
+    Errors:
+      - ErrMissingProtocol: when the "ARCHIVE_PROTOCOL" key is missing.
+      - ErrUnsupportedProtocol: when the protocol is not supported.
+      - Any error returned by the client constructor.
+
+func NewClientFromString(src string) (types.Client, error)
+    NewClientFromString creates a new client from a configuration string.
+
+    Errors:
+      - ParseError: when the configuration string is invalid.
+      - ErrUnsupportedProtocol: when the protocol is not supported.
+      - ErrMissingProtocol: when the protocol is missing.
+      - Any error returned by the client constructor.
+
+
+TYPES
+
+type ParseError struct {
+	// LineNo is the line number where the error occurred.
+	LineNo int
+	// Line is the line where the error occurred.
+	Line string
+	// Message is the error message.
+	Message string
+}
+    ParseError is an error type for parsing configuration.
+
+func (e *ParseError) Error() string
+    Error returns the error message.
+
