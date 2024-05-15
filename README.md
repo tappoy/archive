@@ -3,7 +3,7 @@
 
 # Documents
 - archive: [Document.txt](Document.txt)
-- archive/openstack: [openstack/Document.txt](archive/Document.txt)
+- archive/openstack: [openstack/Document.txt](openstack/Document.txt)
 - archive/aws: [aws/Document.txt](aws/Document.txt)
 
 # Config
