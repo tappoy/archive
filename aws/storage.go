@@ -94,3 +94,21 @@ func (c S3Client) Head(object string) (types.Object, error) {
 	ret.LastModified = *obj.LastModified
 	return ret, nil
 }
+
+// Get retrieves an object.
+func (c S3Client) Get(object string) (types.Object, io.Reader, error) {
+	ret := types.Object{}
+	params := &s3.GetObjectInput{
+		Bucket: &c.bucket,
+		Key:    &object,
+	}
+	obj, err := c.client.GetObject(context.TODO(), params)
+	if err != nil {
+		return ret, nil, fmt.Errorf("failed to get object %v, %v", object, err)
+	}
+	ret.Name = object
+	ret.Hash = *obj.ETag
+	ret.Bytes = *obj.ContentLength
+	ret.LastModified = *obj.LastModified
+	return ret, obj.Body, nil
+}
