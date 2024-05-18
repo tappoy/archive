@@ -1,0 +1,36 @@
+package mock // import "github.com/tappoy/archive/mock"
+
+This package is a mock implementation of the client package. It is used for
+testing purposes.
+
+FUNCTIONS
+
+func NewClient(delay time.Duration) types.Client
+    NewClient is a factory method for MockClient. delay is the delay in seconds
+    for each operation.
+
+func NewClientFromConfig(config map[string]string) (types.Client, error)
+    NewClientFromConfig is a factory method for MockClient.
+
+
+TYPES
+
+type MockClient struct {
+	// Has unexported fields.
+}
+
+func (c MockClient) Delete(object string) error
+    Delete deletes an object.
+
+func (c MockClient) Get(object string) (types.Object, io.Reader, error)
+    Get retrieves an object.
+
+func (c MockClient) Head(object string) (types.Object, error)
+    Head retrieves an object metadata.
+
+func (c MockClient) List(prefix string) ([]types.Object, error)
+    List retrieves a object list in the container.
+
+func (c MockClient) Put(object string, body io.Reader) error
+    Put creates an object.
+
