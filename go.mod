@@ -6,6 +6,7 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.26.1
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.13
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.53.2
+	github.com/tappoy/crypto v1.3.0
 )
 
 require (
