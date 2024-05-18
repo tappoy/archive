@@ -14,6 +14,11 @@ func TestOSNormal(t *testing.T) {
 	endpoint := os.Getenv("OS_ENDPOINT")
 	bucket := os.Getenv("OS_BUCKET")
 
+	// check env
+	if userId == "" || password == "" || tenantId == "" || endpoint == "" || bucket == "" {
+		t.Skip("OS_USER_ID, OS_PASSWORD, OS_TENANT_ID, OS_ENDPOINT, OS_BUCKET are required")
+	}
+
 	// NewClient
 	c, err := NewClient(userId, password, tenantId, endpoint, bucket)
 	if err != nil {
