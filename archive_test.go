@@ -27,4 +27,15 @@ func TestNewClientFromConfig(t *testing.T) {
 	if err != nil {
 		t.Errorf("expected no error, got %v", err)
 	}
+
+	mockConfig, err := os.ReadFile(".mock.config")
+	if err != nil {
+		t.Errorf("expected no error, got %v", err)
+	}
+	src = string(mockConfig)
+
+	_, err = NewClientFromString(src)
+	if err != nil {
+		t.Errorf("expected no error, got %v", err)
+	}
 }
