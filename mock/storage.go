@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func makeObject(name string, mockObject MockObject) types.Object {
+func makeObject(name string, mockObject mockObject) types.Object {
 	return types.Object{
 		Name:         name,
 		Bytes:        int64(len(mockObject.body)),
@@ -48,7 +48,7 @@ func (c MockClient) Put(object string, body io.Reader) error {
 		return err
 	}
 
-	c.bucket[object] = MockObject{
+	c.bucket[object] = mockObject{
 		body:         b,
 		lastModified: time.Now(),
 	}

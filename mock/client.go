@@ -9,20 +9,20 @@ import (
 	"time"
 )
 
-type MockObject struct {
+type mockObject struct {
 	body         []byte
 	lastModified time.Time
 }
 
 type MockClient struct {
-	bucket map[string]MockObject
+	bucket map[string]mockObject
 	delay  time.Duration
 }
 
 // NewClient is a factory method for MockClient.
 // delay is the delay in seconds for each operation.
 func NewClient(delay time.Duration) types.Client {
-	return MockClient{bucket: make(map[string]MockObject), delay: delay}
+	return MockClient{bucket: make(map[string]mockObject), delay: delay}
 }
 
 // NewClientFromConfig is a factory method for MockClient.
