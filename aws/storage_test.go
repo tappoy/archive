@@ -14,6 +14,11 @@ func TestAWSNormal(t *testing.T) {
 	endpoint := os.Getenv("AWS_ENDPOINT")
 	bucket := os.Getenv("AWS_BUCKET")
 
+	// check env
+	if region == "" || accessKey == "" || secretKey == "" || endpoint == "" || bucket == "" {
+		t.Skip("AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_ENDPOINT, AWS_BUCKET are required")
+	}
+
 	// NewClient
 	c, err := NewClient(region, accessKey, secretKey, endpoint, bucket)
 	if err != nil {
