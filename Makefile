@@ -10,9 +10,9 @@ COVER=tmp/cover
 COVER0=tmp/cover0
 
 
-.PHONY: all clean fmt cover test lint
+.PHONY: all clean fmt cover test lint build
 
-all: $(WORKING_DIRS) fmt $(BIN) test $(DOC) $(OPENSTACK_DOC) $(AWS_DOC) lint
+all: $(WORKING_DIRS) fmt build test $(DOC) $(OPENSTACK_DOC) $(AWS_DOC) lint
 
 clean:
 	rm -rf $(WORKING_DIRS) $(DOC) $(OPENSTACK_DOC) $(AWS_DOC)
@@ -26,7 +26,7 @@ fmt: $(SRC)
 go.sum: go.mod
 	go mod tidy
 
-$(BIN): $(SRC) go.sum
+build: $(SRC) go.sum
 	go build -o $(BIN)
 
 test: $(BIN)
