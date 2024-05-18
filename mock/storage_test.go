@@ -1,26 +1,21 @@
-package aws
+package mock
 
 import (
 	"io"
-	"os"
 	"strings"
 	"testing"
+	"time"
 )
 
-func TestAWSNormal(t *testing.T) {
-	region := os.Getenv("AWS_REGION")
-	accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
-	secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
-	endpoint := os.Getenv("AWS_ENDPOINT")
-	bucket := os.Getenv("AWS_BUCKET")
-
-	// check env
-	if region == "" || accessKey == "" || secretKey == "" || endpoint == "" || bucket == "" {
-		t.Skip("AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_ENDPOINT, AWS_BUCKET are required")
+func TestMockNormal(t *testing.T) {
+	// 1s delay
+	delay, err := time.ParseDuration("1s")
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	// NewClient
-	c, err := NewClient(region, accessKey, secretKey, endpoint, bucket)
+	c := NewClient(delay)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -80,5 +75,4 @@ func TestAWSNormal(t *testing.T) {
 		t.Error(err)
 	}
 	t.Log(ret)
-
 }

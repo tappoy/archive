@@ -28,7 +28,7 @@ func NewClient(region, accessKey, secretKey, endpoint, bucket string) (types.Cli
 	return S3Client{client: s3.NewFromConfig(cfg), bucket: bucket}, nil
 }
 
-// NewClientFromConfig is a factory method for OpenstackClient.
+// NewClientFromConfig is a factory method for S3Client.
 func NewClientFromConfig(config map[string]string) (types.Client, error) {
 	// check required fields
 	if _, ok := config["AWS_REGION"]; !ok {

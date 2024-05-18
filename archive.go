@@ -22,6 +22,7 @@ import (
 	"strings"
 
 	"github.com/tappoy/archive/aws"
+	"github.com/tappoy/archive/mock"
 	"github.com/tappoy/archive/openstack"
 	"github.com/tappoy/archive/types"
 )
@@ -35,6 +36,11 @@ var (
 )
 
 // NewClientFromConfig creates a new client from a configuration map.
+//
+// Supported protocols:
+//   - openstack
+//   - aws
+//   - mock
 //
 // Errors:
 //   - ErrMissingProtocol: when the "ARCHIVE_PROTOCOL" key is missing.
@@ -50,6 +56,8 @@ func NewClientFromConfig(config map[string]string) (types.Client, error) {
 		return openstack.NewClientFromConfig(config)
 	case "aws":
 		return aws.NewClientFromConfig(config)
+	case "mock":
+		return mock.NewClientFromConfig(config)
 	default:
 		return nil, ErrUnsupportedProtocol
 	}

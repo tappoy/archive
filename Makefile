@@ -6,16 +6,17 @@ BIN=bin/$(shell basename $(CURDIR))
 DOC=Document.txt
 OPENSTACK_DOC=openstack/Document.txt
 AWS_DOC=aws/Document.txt
+MOCK_DOC=mock/Document.txt
 COVER=tmp/cover
 COVER0=tmp/cover0
 
 
-.PHONY: all clean fmt cover test lint
+.PHONY: all clean fmt cover test lint build
 
-all: $(WORKING_DIRS) fmt $(BIN) test $(DOC) $(OPENSTACK_DOC) $(AWS_DOC) lint
+all: $(WORKING_DIRS) fmt build test $(DOC) $(OPENSTACK_DOC) $(AWS_DOC) $(MOCK_DOC) lint
 
 clean:
-	rm -rf $(WORKING_DIRS) $(DOC) $(OPENSTACK_DOC) $(AWS_DOC)
+	rm -rf $(WORKING_DIRS) $(DOC) $(OPENSTACK_DOC) $(AWS_DOC) $(MOCK_DOC)
 
 $(WORKING_DIRS):
 	mkdir -p $(WORKING_DIRS)
@@ -26,7 +27,7 @@ fmt: $(SRC)
 go.sum: go.mod
 	go mod tidy
 
-$(BIN): $(SRC) go.sum
+build: $(SRC) go.sum
 	go build -o $(BIN)
 
 test: $(BIN)
@@ -40,6 +41,9 @@ $(OPENSTACK_DOC): openstack/*.go
 
 $(AWS_DOC): aws/*.go
 	go doc -all aws > $(AWS_DOC)
+
+$(MOCK_DOC): mock/*.go
+	go doc -all mock > $(MOCK_DOC)
 
 cover: $(COVER)
 	grep "0$$" $(COVER) | sed 's!$(PACKAGE)!.!' | tee $(COVER0)

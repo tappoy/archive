@@ -31,6 +31,11 @@ FUNCTIONS
 func NewClientFromConfig(config map[string]string) (types.Client, error)
     NewClientFromConfig creates a new client from a configuration map.
 
+    Supported protocols:
+      - openstack
+      - aws
+      - mock
+
     Errors:
       - ErrMissingProtocol: when the "ARCHIVE_PROTOCOL" key is missing.
       - ErrUnsupportedProtocol: when the protocol is not supported.

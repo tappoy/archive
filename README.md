@@ -5,6 +5,7 @@
 - archive: [Document.txt](Document.txt)
 - archive/openstack: [openstack/Document.txt](openstack/Document.txt)
 - archive/aws: [aws/Document.txt](aws/Document.txt)
+- archive/mock: [mock/Document.txt](mock/Document.txt)
 
 # Config
 - aws: [.aws.config](.aws.config.sample)
