@@ -19,6 +19,12 @@ type MockClient struct {
 	delay  time.Duration
 }
 
+// String returns the client information.
+// This is used to logging or debugging.
+func (c MockClient) String() string {
+	return fmt.Sprintf("MockClient{delay: %s}", c.delay)
+}
+
 // NewClient is a factory method for MockClient.
 // delay is the delay in seconds for each operation.
 func NewClient(delay time.Duration) types.Client {

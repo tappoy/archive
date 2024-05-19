@@ -15,6 +15,12 @@ type S3Client struct {
 	bucket string
 }
 
+// String returns the client information.
+// This is used to logging or debugging.
+func (c S3Client) String() string {
+	return fmt.Sprintf("S3Client{bucket: %s}", c.bucket)
+}
+
 // NewClient is a factory method for S3Client
 func NewClient(region, accessKey, secretKey, endpoint, bucket string) (types.Client, error) {
 	appCreds := aws.NewCredentialsCache(credentials.NewStaticCredentialsProvider(accessKey, secretKey, ""))

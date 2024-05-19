@@ -36,6 +36,12 @@ const authFormat = `{
 	}
 }`
 
+// String returns the client information.
+// This is used to logging or debugging.
+func (c OpenstackClient) String() string {
+	return fmt.Sprintf("OpenstackClient{bucket: %s}", c.bucket)
+}
+
 // NewClient is a factory method for OpenstackClient.
 //
 // Errors:
