@@ -31,11 +31,17 @@ func (c OpenstackClient) Delete(object string) error
 func (c OpenstackClient) Get(object string) (types.Object, io.Reader, error)
     Get retrieves an object.
 
+    Errors:
+      - ErrNotFound: if the object is not found.
+
     References:
       - https://doc.conoha.jp/api-vps3/object-download_object-v3/
 
 func (c OpenstackClient) Head(object string) (types.Object, error)
     Head retrieves an object metadata.
+
+    Errors:
+      - ErrNotFound: if the object is not found.
 
     References:
       - https://doc.conoha.jp/api-vps3/object-get_objects_detail_specified-v3/
@@ -53,4 +59,7 @@ func (c OpenstackClient) Put(object string, r io.Reader) error
 
     References:
       - https://doc.conoha.jp/api-vps3/object-upload_object-v3/
+
+func (c OpenstackClient) String() string
+    String returns the client information. This is used to logging or debugging.
 

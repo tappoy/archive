@@ -22,12 +22,21 @@ func (c S3Client) Delete(object string) error
 func (c S3Client) Get(object string) (types.Object, io.Reader, error)
     Get retrieves an object.
 
+    Errors:
+      - ErrNotFound: if the object is not found.
+
 func (c S3Client) Head(object string) (types.Object, error)
     Head retrieves an object metadata.
+
+    Errors:
+      - ErrNotFound: if the object is not found.
 
 func (c S3Client) List(prefix string) ([]types.Object, error)
     List retrieves a object list in the container.
 
 func (c S3Client) Put(object string, body io.Reader) error
     Put creates an object.
+
+func (c S3Client) String() string
+    String returns the client information. This is used to logging or debugging.
 

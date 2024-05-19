@@ -25,12 +25,21 @@ func (c MockClient) Delete(object string) error
 func (c MockClient) Get(object string) (types.Object, io.Reader, error)
     Get retrieves an object.
 
+    Errors:
+      - ErrNotFound: if the object is not found.
+
 func (c MockClient) Head(object string) (types.Object, error)
     Head retrieves an object metadata.
+
+    Errors:
+      - ErrNotFound: if the object is not found.
 
 func (c MockClient) List(prefix string) ([]types.Object, error)
     List retrieves a object list in the container.
 
 func (c MockClient) Put(object string, body io.Reader) error
     Put creates an object.
+
+func (c MockClient) String() string
+    String returns the client information. This is used to logging or debugging.
 

@@ -1,6 +1,8 @@
 package mock
 
 import (
+	"github.com/tappoy/archive/types"
+
 	"io"
 	"strings"
 	"testing"
@@ -9,7 +11,7 @@ import (
 
 func TestMockNormal(t *testing.T) {
 	// 1s delay
-	delay, err := time.ParseDuration("1s")
+	delay, err := time.ParseDuration("1ms")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -75,4 +77,30 @@ func TestMockNormal(t *testing.T) {
 		t.Error(err)
 	}
 	t.Log(ret)
+}
+
+func TestMockNotFound(t *testing.T) {
+	// 1s delay
+	delay, err := time.ParseDuration("1ms")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// NewClient
+	c := NewClient(delay)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Head
+	_, err = c.Head("nonexistent.txt")
+	if err != types.ErrNotFound {
+		t.Error(err)
+	}
+
+	// Get
+	_, _, err = c.Get("nonexistent.txt")
+	if err != types.ErrNotFound {
+		t.Error(err)
+	}
 }
