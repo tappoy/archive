@@ -1,9 +1,9 @@
 package types
 
 import (
+	"errors"
 	"io"
 	"time"
-	"errors"
 )
 
 var ErrNotFound = errors.New("not found")
