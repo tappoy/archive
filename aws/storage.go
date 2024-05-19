@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/tappoy/archive/types"
 	"io"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
@@ -78,6 +79,9 @@ func (c S3Client) Delete(object string) error {
 }
 
 // Head retrieves an object metadata.
+//
+// Errors:
+//   - ErrNotFound: if the object is not found.
 func (c S3Client) Head(object string) (types.Object, error) {
 	ret := types.Object{}
 	params := &s3.HeadObjectInput{
@@ -86,6 +90,9 @@ func (c S3Client) Head(object string) (types.Object, error) {
 	}
 	obj, err := c.client.HeadObject(context.TODO(), params)
 	if err != nil {
+		if strings.Contains(err.Error(), "https response error StatusCode: 404") {
+			return ret, types.ErrNotFound
+		}
 		return ret, fmt.Errorf("failed to head object %v, %v", object, err)
 	}
 	ret.Name = object
@@ -96,6 +103,9 @@ func (c S3Client) Head(object string) (types.Object, error) {
 }
 
 // Get retrieves an object.
+//
+// Errors:
+//   - ErrNotFound: if the object is not found.
 func (c S3Client) Get(object string) (types.Object, io.Reader, error) {
 	ret := types.Object{}
 	params := &s3.GetObjectInput{
@@ -104,6 +114,9 @@ func (c S3Client) Get(object string) (types.Object, io.Reader, error) {
 	}
 	obj, err := c.client.GetObject(context.TODO(), params)
 	if err != nil {
+		if strings.Contains(err.Error(), "https response error StatusCode: 404") {
+			return ret, nil, types.ErrNotFound
+		}
 		return ret, nil, fmt.Errorf("failed to get object %v, %v", object, err)
 	}
 	ret.Name = object

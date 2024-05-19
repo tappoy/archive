@@ -110,6 +110,9 @@ func (c OpenstackClient) Delete(object string) error {
 
 // Head retrieves an object metadata.
 //
+// Errors:
+//   - ErrNotFound: if the object is not found.
+//
 // References:
 //   - https://doc.conoha.jp/api-vps3/object-get_objects_detail_specified-v3/
 //     2024-05-15: It's wrong. It says 'GET', but it's actually 'HEAD'.
@@ -130,6 +133,9 @@ func (c OpenstackClient) Head(object string) (types.Object, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
+		if resp.StatusCode == 404 {
+			return types.Object{}, types.ErrNotFound
+		}
 		return types.Object{}, fmt.Errorf("status code: %d", resp.StatusCode)
 	}
 
@@ -150,6 +156,9 @@ func (c OpenstackClient) Head(object string) (types.Object, error) {
 
 // Get retrieves an object.
 //
+// Errors:
+//   - ErrNotFound: if the object is not found.
+//
 // References:
 //   - https://doc.conoha.jp/api-vps3/object-download_object-v3/
 func (c OpenstackClient) Get(object string) (types.Object, io.Reader, error) {
@@ -167,6 +176,9 @@ func (c OpenstackClient) Get(object string) (types.Object, io.Reader, error) {
 	}
 
 	if resp.StatusCode != 200 {
+		if resp.StatusCode == 404 {
+			return types.Object{}, nil, types.ErrNotFound
+		}
 		return types.Object{}, nil, fmt.Errorf("status code: %d", resp.StatusCode)
 	}
 

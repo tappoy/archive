@@ -1,6 +1,8 @@
 package openstack
 
 import (
+	"github.com/tappoy/archive/types"
+
 	"io"
 	"os"
 	"strings"
@@ -76,6 +78,37 @@ func TestOSNormal(t *testing.T) {
 	// Delete
 	err = c.Delete(object)
 	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestOSNotFound(t *testing.T) {
+	userId := os.Getenv("OS_USER_ID")
+	password := os.Getenv("OS_PASSWORD")
+	tenantId := os.Getenv("OS_TENANT_ID")
+	endpoint := os.Getenv("OS_ENDPOINT")
+	bucket := os.Getenv("OS_BUCKET")
+
+	// check env
+	if userId == "" || password == "" || tenantId == "" || endpoint == "" || bucket == "" {
+		t.Skip("OS_USER_ID, OS_PASSWORD, OS_TENANT_ID, OS_ENDPOINT, OS_BUCKET are required")
+	}
+
+	// NewClient
+	c, err := NewClient(userId, password, tenantId, endpoint, bucket)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Head
+	_, err = c.Head("nonexistent.txt")
+	if err != types.ErrNotFound {
+		t.Error(err)
+	}
+
+	// Get
+	_, _, err = c.Get("nonexistent.txt")
+	if err != types.ErrNotFound {
 		t.Error(err)
 	}
 }

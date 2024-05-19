@@ -1,9 +1,12 @@
 package types
 
 import (
+	"errors"
 	"io"
 	"time"
 )
+
+var ErrNotFound = errors.New("not found")
 
 type Object struct {
 	Name         string    `json:"name"`
@@ -13,6 +16,10 @@ type Object struct {
 }
 
 type Client interface {
+	// String returns the client information.
+	// This is used to logging or debugging.
+	String() string
+
 	// List retrieves a object list in the container.
 	List(prefix string) ([]Object, error)
 

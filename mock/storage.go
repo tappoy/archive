@@ -60,9 +60,12 @@ func (c MockClient) Put(object string, body io.Reader) error {
 }
 
 // Get retrieves an object.
+//
+// Errors:
+//   - ErrNotFound: if the object is not found.
 func (c MockClient) Get(object string) (types.Object, io.Reader, error) {
 	if _, ok := c.bucket[object]; !ok {
-		return types.Object{}, nil, fmt.Errorf("object not found")
+		return types.Object{}, nil, types.ErrNotFound
 	}
 
 	// make Object
@@ -89,9 +92,12 @@ func (c MockClient) Delete(object string) error {
 }
 
 // Head retrieves an object metadata.
+//
+// Errors:
+//   - ErrNotFound: if the object is not found.
 func (c MockClient) Head(object string) (types.Object, error) {
 	if _, ok := c.bucket[object]; !ok {
-		return types.Object{}, fmt.Errorf("object not found")
+		return types.Object{}, types.ErrNotFound
 	}
 
 	// sleep
