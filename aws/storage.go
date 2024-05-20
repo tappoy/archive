@@ -66,6 +66,7 @@ func (c S3Client) Put(object string, body io.Reader) error {
 }
 
 // Delete deletes an object.
+// This function does not return an error if the object does not exist.
 func (c S3Client) Delete(object string) error {
 	params := &s3.DeleteObjectInput{
 		Bucket: &c.bucket,
