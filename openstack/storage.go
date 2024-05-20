@@ -83,6 +83,9 @@ func (c OpenstackClient) Put(object string, r io.Reader) error {
 
 // Delete deletes an object.
 //
+// Errors:
+//   - ErrNotFound: if the object is not found.
+//
 // References:
 //   - https://doc.conoha.jp/api-vps3/object-delete_object-v3/
 func (c OpenstackClient) Delete(object string) error {
@@ -103,6 +106,10 @@ func (c OpenstackClient) Delete(object string) error {
 
 	if resp.StatusCode != 204 && resp.StatusCode != 404 {
 		return fmt.Errorf("status code: %d", resp.StatusCode)
+	}
+
+	if resp.StatusCode == 404 {
+		return types.ErrNotFound
 	}
 
 	return nil
