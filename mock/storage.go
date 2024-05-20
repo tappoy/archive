@@ -22,6 +22,9 @@ func makeObject(name string, mockObject mockObject) types.Object {
 
 // List retrieves a object list in the container.
 func (c MockClient) List(prefix string) ([]types.Object, error) {
+	fmt.Printf("%v: List\n", c)
+	fmt.Printf("prefix: %v\n", prefix)
+
 	keys := []string{}
 	for k := range c.bucket {
 		// check if the key has the prefix
@@ -38,13 +41,22 @@ func (c MockClient) List(prefix string) ([]types.Object, error) {
 	// sleep
 	time.Sleep(c.delay)
 
+	// show result
+	for _, r := range ret {
+		fmt.Printf("object: %v\n", r)
+	}
+
 	return ret, nil
 }
 
 // Put creates an object.
 func (c MockClient) Put(object string, body io.Reader) error {
+	fmt.Printf("%v: Put\n", c)
+	fmt.Printf("object: %v\n", object)
+
 	b, err := io.ReadAll(body)
 	if err != nil {
+		fmt.Printf("Put error: %v\n", err)
 		return err
 	}
 
@@ -56,6 +68,9 @@ func (c MockClient) Put(object string, body io.Reader) error {
 	// sleep
 	time.Sleep(c.delay)
 
+	// show result
+	fmt.Printf("body: %x\n", b)
+
 	return nil
 }
 
@@ -64,7 +79,11 @@ func (c MockClient) Put(object string, body io.Reader) error {
 // Errors:
 //   - ErrNotFound: if the object is not found.
 func (c MockClient) Get(object string) (types.Object, io.Reader, error) {
+	fmt.Printf("%v: Get\n", c)
+	fmt.Printf("object: %v\n", object)
+
 	if _, ok := c.bucket[object]; !ok {
+		fmt.Printf("Get error: %v\n", types.ErrNotFound)
 		return types.Object{}, nil, types.ErrNotFound
 	}
 
@@ -74,19 +93,32 @@ func (c MockClient) Get(object string) (types.Object, io.Reader, error) {
 	// sleep
 	time.Sleep(c.delay)
 
+	// show result
+	fmt.Printf("body: %x\n", c.bucket[object].body)
+
 	return obj, bytes.NewReader(c.bucket[object].body), nil
 }
 
 // Delete deletes an object.
+//
+// Errors:
+//   - ErrNotFound: if the object is not found.
 func (c MockClient) Delete(object string) error {
+	fmt.Printf("%v: Delete\n", c)
+	fmt.Printf("object: %v\n", object)
+
 	if _, ok := c.bucket[object]; !ok {
-		return fmt.Errorf("object not found")
+		fmt.Printf("Delete error: %v\n", types.ErrNotFound)
+		return types.ErrNotFound
 	}
 
 	delete(c.bucket, object)
 
 	// sleep
 	time.Sleep(c.delay)
+
+	// show result
+	fmt.Printf("Deleted\n")
 
 	return nil
 }
@@ -96,12 +128,21 @@ func (c MockClient) Delete(object string) error {
 // Errors:
 //   - ErrNotFound: if the object is not found.
 func (c MockClient) Head(object string) (types.Object, error) {
+	fmt.Printf("%v: Head\n", c)
+	fmt.Printf("object: %v\n", object)
+
 	if _, ok := c.bucket[object]; !ok {
+		fmt.Printf("Head error: %v\n", types.ErrNotFound)
 		return types.Object{}, types.ErrNotFound
 	}
 
 	// sleep
 	time.Sleep(c.delay)
 
-	return makeObject(object, c.bucket[object]), nil
+	ret := makeObject(object, c.bucket[object])
+
+	// show result
+	fmt.Printf("head: %v\n", ret)
+
+	return ret, nil
 }

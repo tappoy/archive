@@ -22,6 +22,9 @@ type MockClient struct {
 func (c MockClient) Delete(object string) error
     Delete deletes an object.
 
+    Errors:
+      - ErrNotFound: if the object is not found.
+
 func (c MockClient) Get(object string) (types.Object, io.Reader, error)
     Get retrieves an object.
 
