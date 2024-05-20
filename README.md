@@ -10,6 +10,7 @@
 # Config
 - aws: [.aws.config](.aws.config.sample)
 - openstack: [.openstack.config](.openstack.config.sample)
+- mock: [.mock.config](.mock.config.sample)
 
 # Why it is this way
 See [Philosophy](https://github.com/tappoy/philosophy) for more details.
