@@ -76,6 +76,13 @@ func TestAWSNormal(t *testing.T) {
 	}
 	t.Log("Delete test.txt")
 
+	// Delete
+	// AWS should not return error when deleting nonexistent file
+	err = c.Delete("test.txt")
+	if err != nil {
+		t.Error(err)
+	}
+
 	// List
 	ret, err = c.List("")
 	if err != nil {

@@ -71,6 +71,12 @@ func TestMockNormal(t *testing.T) {
 	}
 	t.Log("Delete test.txt")
 
+	// Delete
+	err = c.Delete("test.txt")
+	if err != types.ErrNotFound {
+		t.Error(err)
+	}
+
 	// List
 	ret, err = c.List("")
 	if err != nil {

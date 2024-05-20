@@ -17,7 +17,8 @@ type S3Client struct {
 }
 
 func (c S3Client) Delete(object string) error
-    Delete deletes an object.
+    Delete deletes an object. This function does not return an error if the
+    object does not exist.
 
 func (c S3Client) Get(object string) (types.Object, io.Reader, error)
     Get retrieves an object.

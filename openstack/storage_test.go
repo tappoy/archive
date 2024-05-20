@@ -77,7 +77,7 @@ func TestOSNormal(t *testing.T) {
 
 	// Delete
 	err = c.Delete(object)
-	if err != nil {
+	if err != types.ErrNotFound {
 		t.Error(err)
 	}
 }

@@ -25,6 +25,9 @@ type OpenstackClient struct {
 func (c OpenstackClient) Delete(object string) error
     Delete deletes an object.
 
+    Errors:
+      - ErrNotFound: if the object is not found.
+
     References:
       - https://doc.conoha.jp/api-vps3/object-delete_object-v3/
 
