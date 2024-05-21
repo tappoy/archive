@@ -1,4 +1,4 @@
-module github.com/tappoy/storage
+module github.com/tappoy/storage/v2
 
 go 1.22.3
 
