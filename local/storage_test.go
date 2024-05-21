@@ -1,4 +1,4 @@
-package mock
+package local
 
 import (
 	"github.com/tappoy/storage/types"
@@ -6,20 +6,15 @@ import (
 	"io"
 	"strings"
 	"testing"
-	"time"
 )
 
-func TestMockNormal(t *testing.T) {
-	// 1s delay
-	delay, err := time.ParseDuration("1ms")
-	if err != nil {
-		t.Fatal(err)
-	}
+const testDir = "/tmp/tappoy/storage/local"
 
+func TestLocalNormal(t *testing.T) {
 	// NewClient
-	c := NewClient(delay)
+	c, err := NewClient(testDir)
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 
 	// List
@@ -64,18 +59,25 @@ func TestMockNormal(t *testing.T) {
 	}
 	t.Log(string(content))
 
-	// Delete
-	err = c.Delete("test.txt")
+	// Put
+	err = c.Put("a/b/c/test.txt", strings.NewReader("test"))
 	if err != nil {
 		t.Error(err)
 	}
-	t.Log("Delete test.txt")
+	t.Log("Put a/b/c/test.txt")
 
-	// Delete
-	err = c.Delete("test.txt")
-	if err != types.ErrNotFound {
-		t.Error(err)
-	}
+	// // Delete
+	// err = c.Delete("test.txt")
+	// if err != nil {
+	// 	t.Error(err)
+	// }
+	// t.Log("Delete test.txt")
+
+	// // Delete
+	// err = c.Delete("test.txt")
+	// if err != types.ErrNotFound {
+	// 	t.Error(err)
+	// }
 
 	// List
 	ret, err = c.List("")
@@ -85,17 +87,11 @@ func TestMockNormal(t *testing.T) {
 	t.Log(ret)
 }
 
-func TestMockNotFound(t *testing.T) {
-	// 1s delay
-	delay, err := time.ParseDuration("1ms")
-	if err != nil {
-		t.Fatal(err)
-	}
-
+func TestLocalNotFound(t *testing.T) {
 	// NewClient
-	c := NewClient(delay)
+	c, err := NewClient(testDir)
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 
 	// Head

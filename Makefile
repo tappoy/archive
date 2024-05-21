@@ -7,16 +7,17 @@ DOC=Document.txt
 OPENSTACK_DOC=openstack/Document.txt
 AWS_DOC=aws/Document.txt
 MOCK_DOC=mock/Document.txt
+LOCAL_DOC=local/Document.txt
 COVER=tmp/cover
 COVER0=tmp/cover0
 
 
 .PHONY: all clean fmt cover test lint build
 
-all: $(WORKING_DIRS) fmt build test $(DOC) $(OPENSTACK_DOC) $(AWS_DOC) $(MOCK_DOC) lint
+all: $(WORKING_DIRS) fmt build test $(DOC) $(OPENSTACK_DOC) $(AWS_DOC) $(LOCAL_DOC) $(MOCK_DOC) lint
 
 clean:
-	rm -rf $(WORKING_DIRS) $(DOC) $(OPENSTACK_DOC) $(AWS_DOC) $(MOCK_DOC)
+	rm -rf $(WORKING_DIRS) $(DOC) $(OPENSTACK_DOC) $(AWS_DOC) $(LOCAL_DOC) $(MOCK_DOC)
 
 $(WORKING_DIRS):
 	mkdir -p $(WORKING_DIRS)
@@ -44,6 +45,9 @@ $(AWS_DOC): aws/*.go
 
 $(MOCK_DOC): mock/*.go
 	go doc -all mock > $(MOCK_DOC)
+
+$(LOCAL_DOC): local/*.go
+	go doc -all mock > $(LOCAL_DOC)
 
 cover: $(COVER)
 	grep "0$$" $(COVER) | sed 's!$(PACKAGE)!.!' | tee $(COVER0)

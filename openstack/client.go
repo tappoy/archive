@@ -2,7 +2,7 @@ package openstack
 
 import (
 	"fmt"
-	"github.com/tappoy/archive/types"
+	"github.com/tappoy/storage/types"
 	"net/http"
 	"strings"
 )

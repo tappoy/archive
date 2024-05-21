@@ -1,7 +1,7 @@
 package aws
 
 import (
-	"github.com/tappoy/archive/types"
+	"github.com/tappoy/storage/types"
 
 	"io"
 	"os"
