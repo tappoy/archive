@@ -1,5 +1,5 @@
 # Package
-`github.com/tappoy/storage`
+`github.com/tappoy/storage/v2`
 
 # Documents
 - storage: [Document.txt](Document.txt)
