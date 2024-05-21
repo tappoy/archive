@@ -2,7 +2,7 @@
 package local
 
 import (
-	"github.com/tappoy/storage/types"
+	"github.com/tappoy/storage/v2/types"
 
 	"fmt"
 	"os"

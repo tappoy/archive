@@ -1,4 +1,4 @@
-package storage // import "github.com/tappoy/storage"
+package storage // import "github.com/tappoy/storage/v2"
 
 This package provides an interface for storage services.
 
