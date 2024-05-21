@@ -5,6 +5,8 @@ This package provides an interface for archiving to cloud services.
 Supported protocols:
   - OpenStack https://docs.openstack.org/2024.1/api/
   - AWS https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html
+  - Local Local file system
+  - Mock In memeory mock
 
 Tested services:
   - ConoHa https://doc.conoha.jp/api-vps3/
@@ -34,6 +36,7 @@ func NewClientFromConfig(config map[string]string) (types.Client, error)
     Supported protocols:
       - openstack
       - aws
+      - local
       - mock
 
     Errors:

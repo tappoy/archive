@@ -3,6 +3,8 @@
 // Supported protocols:
 //   - OpenStack  https://docs.openstack.org/2024.1/api/
 //   - AWS        https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html
+//   - Local      Local file system
+//   - Mock       In memeory mock
 //
 // Tested services:
 //   - ConoHa     https://doc.conoha.jp/api-vps3/
@@ -22,6 +24,7 @@ import (
 	"strings"
 
 	"github.com/tappoy/archive/aws"
+	"github.com/tappoy/archive/local"
 	"github.com/tappoy/archive/mock"
 	"github.com/tappoy/archive/openstack"
 	"github.com/tappoy/archive/types"
@@ -40,6 +43,7 @@ var (
 // Supported protocols:
 //   - openstack
 //   - aws
+//   - local
 //   - mock
 //
 // Errors:
@@ -56,6 +60,8 @@ func NewClientFromConfig(config map[string]string) (types.Client, error) {
 		return openstack.NewClientFromConfig(config)
 	case "aws":
 		return aws.NewClientFromConfig(config)
+	case "local":
+		return local.NewClientFromConfig(config)
 	case "mock":
 		return mock.NewClientFromConfig(config)
 	default:
