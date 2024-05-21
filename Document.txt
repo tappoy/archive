@@ -3,10 +3,10 @@ package storage // import "github.com/tappoy/storage"
 This package provides an interface for storage services.
 
 Supported protocols:
-  - OpenStack https://docs.openstack.org/2024.1/api/
-  - AWS https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html
-  - Local Local file system
-  - Mock In memeory mock
+  - OpenStack: https://docs.openstack.org/2024.1/api/
+  - AWS: https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html
+  - Local: Local file system
+  - Mock: In memeory mock
 
 Tested clouds:
   - ConoHa https://doc.conoha.jp/api-vps3/
