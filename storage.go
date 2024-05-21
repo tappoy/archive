@@ -23,11 +23,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/tappoy/storage/aws"
-	"github.com/tappoy/storage/local"
-	"github.com/tappoy/storage/mock"
-	"github.com/tappoy/storage/openstack"
-	"github.com/tappoy/storage/types"
+	"github.com/tappoy/storage/v2/aws"
+	"github.com/tappoy/storage/v2/local"
+	"github.com/tappoy/storage/v2/mock"
+	"github.com/tappoy/storage/v2/openstack"
+	"github.com/tappoy/storage/v2/types"
 )
 
 var (

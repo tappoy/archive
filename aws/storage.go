@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"fmt"
-	"github.com/tappoy/storage/types"
+	"github.com/tappoy/storage/v2/types"
 	"io"
 	"strings"
 

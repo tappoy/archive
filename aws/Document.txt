@@ -1,4 +1,4 @@
-package aws // import "github.com/tappoy/storage/aws"
+package aws // import "github.com/tappoy/storage/v2/aws"
 
 
 FUNCTIONS
