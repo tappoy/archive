@@ -1,4 +1,4 @@
-package archive
+package storage
 
 import (
 	"os"
