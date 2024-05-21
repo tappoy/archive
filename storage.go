@@ -1,4 +1,4 @@
-// This package provides an interface for archiving to cloud services.
+// This package provides an interface for storage services.
 //
 // Supported protocols:
 //   - OpenStack  https://docs.openstack.org/2024.1/api/
@@ -6,7 +6,7 @@
 //   - Local      Local file system
 //   - Mock       In memeory mock
 //
-// Tested services:
+// Tested clouds:
 //   - ConoHa     https://doc.conoha.jp/api-vps3/
 //   - Sakura     https://manual.sakura.ad.jp/cloud/objectstorage/api/api-json.html
 //
@@ -23,11 +23,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/tappoy/archive/aws"
-	"github.com/tappoy/archive/local"
-	"github.com/tappoy/archive/mock"
-	"github.com/tappoy/archive/openstack"
-	"github.com/tappoy/archive/types"
+	"github.com/tappoy/storage/aws"
+	"github.com/tappoy/storage/local"
+	"github.com/tappoy/storage/mock"
+	"github.com/tappoy/storage/openstack"
+	"github.com/tappoy/storage/types"
 )
 
 var (

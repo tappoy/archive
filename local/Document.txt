@@ -1,4 +1,4 @@
-package mock // import "github.com/tappoy/archive/mock"
+package mock // import "github.com/tappoy/storage/mock"
 
 This package is a mock implementation of the client package. It is used for
 testing purposes.

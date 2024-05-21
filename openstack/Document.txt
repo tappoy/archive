@@ -1,4 +1,4 @@
-package openstack // import "github.com/tappoy/archive/openstack"
+package openstack // import "github.com/tappoy/storage/openstack"
 
 
 FUNCTIONS

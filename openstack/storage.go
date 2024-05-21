@@ -3,7 +3,7 @@ package openstack
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/tappoy/archive/types"
+	"github.com/tappoy/storage/types"
 	"io"
 	"net/http"
 	"strconv"

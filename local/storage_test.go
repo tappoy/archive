@@ -1,14 +1,14 @@
 package local
 
 import (
-	"github.com/tappoy/archive/types"
+	"github.com/tappoy/storage/types"
 
 	"io"
 	"strings"
 	"testing"
 )
 
-const testDir = "/tmp/tappoy/archive/local"
+const testDir = "/tmp/tappoy/storage/local"
 
 func TestLocalNormal(t *testing.T) {
 	// NewClient
