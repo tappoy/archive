@@ -15,7 +15,7 @@
 //
 // Others:
 //   - Google     https://cloud.google.com/storage/docs/json_api/v1
-package archive
+package storage
 
 import (
 	"bufio"
